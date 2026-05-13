@@ -31,4 +31,4 @@ Businesses use market research and consumer feedback to improve products, servic
 ## Live Website
 
 GitHub Pages version:
-https://prizoraofficial.github.io/REPOSITORY-NAME/
+https://prizoraofficial.github.io/survey-guides/
