@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Consumer Insights</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy: #0d1b2a;
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --cream: #faf7f2;
+      --mid: #3a506b;
+      --accent: #e8572a;
+      --teal: #1a7a8a;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      background: var(--cream);
+      font-family: 'Source Serif Pro', Georgia, serif;
+      color: var(--navy);
+      margin: 0;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: var(--navy);
+      border-bottom: 3px solid var(--gold);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .site-nav .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold) !important;
+      font-size: 1.1rem;
+      letter-spacing: .04em;
+    }
+    .site-nav .nav-link {
+      color: #cdd6e0 !important;
+      font-size: .88rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .75rem 1rem !important;
+      transition: color .2s;
+    }
+    .site-nav .nav-link:hover,
+    .site-nav .nav-link.active { color: var(--gold) !important; }
+    .navbar-toggler { border-color: var(--gold); }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='%23c9a84c' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #091420 0%, #1a3a55 100%);
+      padding: 5rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,122,138,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: .78rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .75rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.12;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em { color: #5ecde0; font-style: normal; }
+    .hero-lead { color: #b0c0d0; font-size: 1.08rem; max-width: 560px; line-height: 1.75; }
+    .hero-rule { width: 56px; height: 3px; background: #5ecde0; margin: 1.8rem 0; }
+
+    /* ── SECTION TITLES ── */
+    .section-label {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--teal); font-weight: 600; margin-bottom: .4rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700; color: var(--navy); margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 44px; height: 3px;
+      background: var(--teal); margin-bottom: 1.8rem;
+    }
+
+    /* ── INSIGHT CARDS ── */
+    .insight-card {
+      position: relative;
+      background: #fff;
+      border-radius: 6px;
+      padding: 2rem 1.6rem 1.6rem;
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid #e4ddd4;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--teal);
+    }
+    .insight-card:hover {
+      box-shadow: 0 14px 40px rgba(13,27,42,.12);
+      transform: translateY(-4px);
+    }
+    .insight-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(26,122,138,.12);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .insight-card h5 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      color: var(--navy);
+      margin-bottom: .5rem;
+    }
+    .insight-card p {
+      font-size: .92rem; color: #546a7e; line-height: 1.7; margin: 0;
+    }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      background: var(--navy);
+      padding: 3.5rem 0;
+      border-top: 3px solid var(--teal);
+      border-bottom: 3px solid var(--teal);
+    }
+    .stat-item { text-align: center; padding: 1rem; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #5ecde0;
+      line-height: 1;
+      margin-bottom: .35rem;
+    }
+    .stat-label {
+      font-size: .82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8da4b8;
+    }
+
+    /* ── PROCESS STEPS ── */
+    .process-step {
+      display: flex; gap: 1.2rem; margin-bottom: 1.6rem; align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-content h6 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; color: var(--navy); margin-bottom: .25rem;
+    }
+    .step-content p { font-size: .92rem; color: #546a7e; line-height: 1.65; margin: 0; }
+
+    /* ── TOOLS GRID ── */
+    .tool-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #fff;
+      border: 1px solid #dde8ee;
+      border-left: 4px solid var(--teal);
+      padding: .7rem 1rem;
+      border-radius: 4px;
+      font-size: .9rem;
+      color: var(--navy);
+      margin: 0 .4rem .6rem 0;
+      font-weight: 600;
+    }
+    .tool-dot { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; }
+
+    /* ── RESOURCE LINKS ── */
+    .resource-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .9rem 1.2rem;
+      background: #fff;
+      border: 1px solid #e0d8cc;
+      border-left: 4px solid var(--gold);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--navy);
+      font-weight: 600;
+      font-size: .95rem;
+      transition: background .2s, border-color .2s;
+      margin-bottom: .75rem;
+    }
+    .resource-link:hover {
+      background: #fffbf2; border-left-color: var(--accent);
+      color: var(--accent); text-decoration: none;
+    }
+    .resource-link .dot { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+    /* ── INTERNAL NAV CARDS ── */
+    .page-nav-card {
+      display: block; background: var(--navy); color: #fff;
+      border-radius: 6px; padding: 1.5rem 1.8rem;
+      text-decoration: none;
+      transition: background .22s, transform .22s;
+      height: 100%;
+    }
+    .page-nav-card:hover {
+      background: var(--mid); color: #fff; text-decoration: none; transform: translateY(-3px);
+    }
+    .page-nav-card .nav-label {
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .4rem;
+    }
+    .page-nav-card h6 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: .5rem; }
+    .page-nav-card p { font-size: .84rem; color: #8da0b4; margin: 0; line-height: 1.6; }
+    .arrow { float: right; color: var(--gold); font-size: 1.2rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080f17; color: #6a7f94; font-size: .84rem;
+      padding: 2rem 0; border-top: 2px solid var(--gold);
+    }
+    footer a { color: var(--gold-light); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+
+    section { padding: 4rem 0; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg site-nav">
+  <div class="container">
+    <a class="navbar-brand" href="market-research-resources.html">Research Hub</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="market-research-resources.html">Market Research</a></li>
+        <li class="nav-item"><a class="nav-link active" href="digital-consumer-insights.html">Consumer Insights</a></li>
+        <li class="nav-item"><a class="nav-link" href="paid-survey-learning-center.html">Survey Center</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero py-0">
+  <div class="container py-5">
+    <p class="hero-eyebrow">Resource Library — Vol. 2</p>
+    <h1>Digital Consumer<br><em>Insights</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-lead">How consumer behavior shapes the online world — and why understanding digital signals is essential for every modern business strategy.</p>
+  </div>
+</section>
+
+<!-- WHAT ARE INSIGHTS -->
+<section>
+  <div class="container">
+    <p class="section-label">Overview</p>
+    <h2 class="section-title">How Consumer Behavior Shapes the Online World</h2>
+    <div class="section-divider"></div>
+    <div class="row">
+      <div class="col-lg-5 mb-4 mb-lg-0">
+        <p style="font-size:1.05rem;line-height:1.85;color:#3a506b;">
+          Consumer behavior has become one of the most important areas of study in modern digital business. Companies closely monitor how users interact with websites, products, mobile applications, and online services to improve customer experiences and refine business strategies.
+        </p>
+        <p style="font-size:1.02rem;line-height:1.85;color:#3a506b;">
+          Every click, scroll, and purchase generates valuable signals — and businesses that know how to interpret those signals gain a decisive competitive edge.
+        </p>
+      </div>
+      <div class="col-lg-7">
+        <div class="row">
+          <div class="col-sm-6 mb-3">
+            <div class="insight-card">
+              <div class="insight-num">01</div>
+              <h5>Online Habits</h5>
+              <p>Map how users move through digital environments — what they click, where they linger, and where they leave.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <div class="insight-card">
+              <div class="insight-num">02</div>
+              <h5>Purchasing Behavior</h5>
+              <p>Uncover the triggers, hesitations, and motivators behind every buying decision made online.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <div class="insight-card">
+              <div class="insight-num">03</div>
+              <h5>Engagement Patterns</h5>
+              <p>Identify which formats, channels, and content types drive the deepest audience connection.</p>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <div class="insight-card">
+              <div class="insight-num">04</div>
+              <h5>Customer Satisfaction</h5>
+              <p>Measure sentiment and service quality through behavioral signals and direct user feedback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stat-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="stat-number">5.4B</div>
+          <div class="stat-label">Global Internet Users</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="stat-number">83%</div>
+          <div class="stat-label">Decisions Driven by Digital Data</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="stat-number">4×</div>
+          <div class="stat-label">ROI Uplift from Insights</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="stat-number">62%</div>
+          <div class="stat-label">Companies Prioritize Digital Research</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY INSIGHTS MATTER -->
+<section>
+  <div class="container">
+    <p class="section-label">Application</p>
+    <h2 class="section-title">Why Digital Insights Matter</h2>
+    <div class="section-divider"></div>
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h6>Improve Website Usability</h6>
+            <p>Behavioral data reveals friction points in user journeys, enabling targeted UX improvements that reduce drop-off rates and increase conversions.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h6>Create Targeted Advertising</h6>
+            <p>Audience segments built from real behavioral data outperform generic demographics, delivering higher ad relevance and lower acquisition costs.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h6>Personalize User Experiences</h6>
+            <p>Insight-driven personalization enables brands to serve each user content and offers that match their specific interests and intent signals.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-4">
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h6>Optimize Products &amp; Services</h6>
+            <p>Continuous feedback loops from digital users allow product teams to iterate quickly, prioritizing features customers actually want and use.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h6>Understand Market Demand</h6>
+            <p>Search trends, engagement data, and survey responses paint a real-time picture of shifting consumer demand across categories.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h6>Support Long-Term Innovation</h6>
+            <p>Sustained insight collection builds institutional knowledge that fuels product roadmaps, brand strategy, and competitive differentiation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROWTH OF ONLINE RESEARCH -->
+<section style="background:#f2ede6;padding:3.5rem 0;">
+  <div class="container">
+    <p class="section-label">Growth</p>
+    <h2 class="section-title">The Growth of Online Research</h2>
+    <div class="section-divider"></div>
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <p style="font-size:1.02rem;line-height:1.85;color:#3a506b;">
+          As internet usage continues to grow globally, online research platforms have become increasingly important. Organizations now deploy a rich toolkit to understand digital audiences more effectively than ever before.
+        </p>
+        <p style="font-size:1.02rem;line-height:1.85;color:#3a506b;">
+          Research organizations such as the Pew Research Center regularly publish studies about internet usage, digital trends, and online behavior patterns — providing an independent benchmark for the industry.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <p style="font-size:.88rem;letter-spacing:.1em;text-transform:uppercase;color:#8a9aaa;margin-bottom:.8rem;">Common Research Tools</p>
+        <div>
+          <span class="tool-badge"><span class="tool-dot"></span>Online Surveys</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Analytics Platforms</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Feedback Systems</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Behavioral Studies</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Heatmapping</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Session Recording</span>
+          <span class="tool-badge"><span class="tool-dot"></span>A/B Testing</span>
+          <span class="tool-badge"><span class="tool-dot"></span>Cohort Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<section>
+  <div class="container">
+    <p class="section-label">Platforms &amp; Resources</p>
+    <h2 class="section-title">Online Reward &amp; Survey Platforms</h2>
+    <div class="section-divider"></div>
+    <div class="row">
+      <div class="col-lg-7 mb-4 mb-lg-0">
+        <p style="font-size:1.02rem;line-height:1.85;color:#3a506b;">
+          Many companies use survey platforms to collect opinions from users in different regions and demographics. These platforms help businesses gather consumer feedback, improve products, test new concepts, and study user preferences at scale — connecting businesses directly with the audiences that matter most.
+        </p>
+      </div>
+      <div class="col-lg-5">
+        <h6 style="font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1rem;color:var(--navy);">Explore These Resources</h6>
+        <a href="#" class="resource-link"><span class="dot"></span> Survey Reward Hub Blog</a>
+        <a href="#" class="resource-link"><span class="dot"></span> Smart Survey Guide</a>
+        <a href="https://www.prizora.com/" class="resource-link"><span class="dot"></span> Prizora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNAL LINKS -->
+<section style="background:var(--navy);padding:3rem 0;">
+  <div class="container">
+    <p class="section-label" style="color:var(--gold);">Continue Exploring</p>
+    <h2 class="section-title" style="color:#fff;">Related Articles</h2>
+    <div class="section-divider" style="background:var(--teal);"></div>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <a class="page-nav-card" href="market-research-resources.html" style="background:#152232;">
+          <span class="arrow">←</span>
+          <div class="nav-label">Previous Article</div>
+          <h6>Market Research Resources</h6>
+          <p>Understanding the importance of market research and why companies invest in consumer data collection.</p>
+        </a>
+      </div>
+      <div class="col-md-6 mb-4">
+        <a class="page-nav-card" href="paid-survey-learning-center.html" style="background:#152232;">
+          <span class="arrow">→</span>
+          <div class="nav-label">Learning Center</div>
+          <h6>Paid Survey Learning Center</h6>
+          <p>A beginner's guide to paid surveys, online rewards, and how to participate effectively in consumer research.</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container d-flex flex-wrap justify-content-between align-items-center">
+    <span style="font-family:'Playfair Display',serif;color:var(--gold);font-size:1rem;">Research Hub</span>
+    <nav style="display:flex;gap:1.5rem;">
+      <a href="market-research-resources.html">Market Research</a>
+      <a href="digital-consumer-insights.html">Consumer Insights</a>
+      <a href="paid-survey-learning-center.html">Survey Center</a>
+    </nav>
+    <span>&copy; 2026 Research Hub. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
